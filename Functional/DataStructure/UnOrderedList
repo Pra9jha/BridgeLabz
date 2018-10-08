@@ -1,0 +1,105 @@
+''''
+ **Purpose: Read the Text from a file, split it into words and arrange it as Linked List.
+   Take a user input to search a Word in the List. If the Word is not found then add it to 
+   the list, and if it found then remove the word from the List. In the end save the list
+   into a file
+ **@author Prashant Kumar Jha
+ **@since  14-09-2018
+'''''
+
+#class node is having teo variable one which will hold next element and one will hld data
+class Node:
+    #constructor have data as a parameter
+     def __init__(self,data):
+         self.next=0
+         self.data=data
+#class Linklist having different method and a variable head
+class LinkList:
+    head=0
+    #insert method is having a default parameter self having reference of the class and a
+    #another parameter is value which is having value to be inserted into to the linklist
+    def  insert(self,value):
+        n=Node(value)
+        if self.head==0:
+            self.head=n
+        else:
+            temp=self.head
+            while(temp.next!=0):
+                temp=temp.next
+            temp.next=n
+
+    # insert method is having a default parameter self having reference of the class and a
+    # another parameter is value which is having value to be deleted from the  linklist
+    def delete(self,value):
+      if value==self.head.data:
+          self.head=self.head.next
+      else:
+        temp=self.head
+        while temp.next.data!=value:
+            temp=temp.next
+        tn=temp.next.next
+        temp.next=tn
+    #search method is having three parametere self is the default parameter having the reference
+    # of the class and the seconfd parameter is value which will hold the data to be searched from
+    # the lnklist third parameter is fn i.e file name i,it is having the name of the file
+    def search(self,value,fn):
+        temp = self.head
+        flag=0
+        while temp!=0:
+            #if data is found then we will delete the data and if the searched data is not present
+            # in our list we will add the searched data to our list
+          if temp.data==value:
+              self.delete(value)
+              self.saveTofile(fn)
+              flag=1
+              break
+          temp = temp.next
+        if flag==0 :
+         print("Element not found")
+         self.insert(value)
+         self.saveTofile(fn)
+    #the methofd show display the value preset in our linklist it is onluy having one default
+    #parametre self which is the redference of the class
+    def show(self):
+        temp = self.head
+        while(temp!=0):
+            print(temp.data,end="")
+            temp=temp.next
+     #save to file ,method which is called from the seach method is having two parameter
+     # self and fn it will simply add the element present in the list to the file having
+     # address in fn
+    def saveTofile(self,fn):
+        str=""
+        temp=self.head
+        while temp!=0:
+            str=str+" "+temp.data
+            temp=temp.next
+        open(fn,'w').write(str)
+#Main class
+class Main:
+    # creating object of the Linklist
+    ll = LinkList()
+    # taking two input from the user first one is file name and second is
+    # the element to be searched both the input is separated  by coma
+    try:
+     fn , word = input("Enter the file name use comma and Enter the word to search\n      eg t.txt,my::\n ").split(",")
+     # open the file and stored the data from file to our linklist separated from space for
+     # this a store variable is used
+     o= open(fn, 'r')
+     f =o.read()
+    except Exception as e:
+      print(e)
+      exit()
+    store = ""
+    for i in range(len(f)):
+        if (f[i] != " "):
+            store = store + f[i]
+        if f[i] == " " or i == len(f) - 1:
+            ll.insert(store)
+            store = ""
+    # calling search method of the LinkList by passing two element as word
+    # that is to be searched and the file name
+    ll.search(word,fn)
+    o.close()
+    # to display the content in the file after making change
+    print(open(fn).read())

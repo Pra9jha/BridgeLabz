@@ -1,0 +1,19 @@
+{
+  "stock": {
+    "Reliance": {
+      "name": "Reliance",
+      "share": "5",
+      "price": "2334"
+    },
+    "Hpe": {
+      "name": "Tcs",
+      "share": "14",
+      "price": "8977"
+    },
+    "Tcs": {
+      "name": "Hpe",
+      "share": "10",
+      "price": "56677"
+    }
+  }
+}
